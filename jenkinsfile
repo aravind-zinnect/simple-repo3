@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/simple-repo3.git'
+                git 'https://github.com/aravind-zinnect/simple-repo3'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
 
         stage('Archive Artifacts') {
             steps {
-                archiveArtifacts artifacts: 'my_report.txt', fingerprint: true
+                archiveArtifacts artifacts: 'my_artifacts_report.txt', fingerprint: true
             }
         }
     }
