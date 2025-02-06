@@ -2,7 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Create File') {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/YOUR_USERNAME/simple-repo3.git'
+            }
+        }
+
+        stage('Create Artifact') {
             steps {
                 script {
                     // Create a simple text file
