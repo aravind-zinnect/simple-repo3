@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Create File') {
+            steps {
+                script {
+                    // Create a simple text file
+                    bat 'echo This is my Jenkins artifact file > my_report.txt'
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'my_report.txt', fingerprint: true
+            }
+        }
+    }
+}
