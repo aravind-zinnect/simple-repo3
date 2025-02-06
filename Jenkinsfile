@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/aravind-zinnect/simple-repo3'
-            }
-        }
+       stage('Clone Repository') {
+    steps {
+        git branch: 'main', url: 'https://github.com/aravind-zinnect/simple-repo3'
+    }
+}
+
 
         stage('Create Artifact') {
             steps {
