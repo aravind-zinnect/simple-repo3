@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Create a simple text file
-                    bat 'echo This is my Jenkins artifact file > my_report.txt'
+                    bat 'echo This is my Jenkins artifact file > my_artifacts_report.txt'
                 }
             }
         }
