@@ -3,19 +3,22 @@ pipeline {
 
     environment {
         BUILD_ARTIFACT = "my-app.jar"
+        JAVA_HOME = "C:\\Program Files\\Java\\jdk-17"
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                  git branch: 'main', url: 'https://github.com/aravind-zinnect/simple-repo3.git'
+                git branch: 'main', url: 'https://github.com/aravind-zinnect/simple-repo3.git'
             }
         }
 
         stage('Build with Maven') {
             steps {
                 script {
-                    bat 'mvn clean package'
+                    withEnv(["JAVA_HOME=${env.JAVA_HOME}", "PATH=${env.JAVA_HOME}\\bin;${env.PATH}"]) {
+                        bat 'mvn clean package'
+                    }
                 }
             }
         }
@@ -29,16 +32,23 @@ pipeline {
         stage('Deploy to Web Server') {
             steps {
                 script {
-                    bat 'copy target\\my-app.jar C:\\apache-web-server\\deploy\\'
+                    bat """
+                    if not exist C:\\apache-web-server\\deploy mkdir C:\\apache-web-server\\deploy
+                    copy target\\my-app.jar C:\\apache-web-server\\deploy\\
+                    """
                 }
             }
         }
 
         stage('Post-Build Actions') {
             steps {
-                mail to: 'your-email@example.com',
-                     subject: "Jenkins Build: ${currentBuild.fullDisplayName}",
-                     body: "Build completed successfully! Check artifacts."
+                script {
+                    emailext(
+                        to: 'your-email@example.com',
+                        subject: "Jenkins Build: ${currentBuild.fullDisplayName}",
+                        body: "Build completed successfully! Check artifacts at http://your-server-url/deploy/"
+                    )
+                }
             }
         }
     }
