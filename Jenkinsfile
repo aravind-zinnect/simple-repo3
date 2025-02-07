@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/aravind-zinnect/simple-repo3.git'
+                  git branch: 'main', url: 'https://github.com/aravind-zinnect/simple-repo3.git'
             }
         }
 
